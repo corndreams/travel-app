@@ -31,6 +31,9 @@
 								{{item.tag[1]}}
 							</view>
 						</view>
+						<view class="isDot" v-if="item.isDot">
+							{{item.isDot}}
+						</view>
 					</view>
 				</template>
 				<template v-slot:right="{rightList}">
@@ -54,18 +57,22 @@
 				</template>
 			</up-waterfall>
 		</view>
+		<view class="topClass" @click="toTop" v-if="showTopBtn">
+			<up-icon name="arrow-upward" color="#fff" size="28"></up-icon>
+		</view>
 	</view>
 </template>
 
 <script setup>
 	import { getBanner,getHomeList } from '../../api/api.js';
-	import { onLoad } from '@dcloudio/uni-app'
+	import { onLoad ,onReachBottom,onPageScroll } from '@dcloudio/uni-app'
 	import { ref,reactive } from 'vue';  
 	  
 	const keyword = ref('');  
 	  
 	const bannerList = ref([]);  
 	const flowList = ref([])
+	const showTopBtn =ref(false)
 	
 	onLoad(()=>{
 		getBanner().then(res =>{
@@ -76,10 +83,47 @@
 			console.log(res)
 			flowList.value = res
 		})
+
 	})
+	
+	onReachBottom(()=>{
+		setTimeout(()=>{
+			addRandomData()
+		},1000)
+	})
+	
+	const addRandomData =()=>{
+		for (let i=0;i<10;i++){
+			let index =uni.$u.random(0,flowList.value.length-1)
+			let item =JSON.parse(JSON.stringify((flowList.value[index])))
+			item.id = uni.$u.guid()
+			flowList.value.push(item)
+		}
+	}
+	
+	onPageScroll((e)=>{
+		if(e.scrollTop>600){
+			showTopBtn.value=true
+			consle.log(showTopBtn.value)
+		}else{
+			showTopBtn.value=false
+		}
+	})
+	
+	const toTop=()=>{
+		uni.pageScrollTo({
+			scrollTop:0,
+			duration:300
+		})
+	}
 </script>
 
-<style lang="scss">
+<style>
+	page{
+		background-color: rgb(240,240,240);
+	}
+</style>
+<style lang="scss" scoped>
 .content{
 	padding: 20rpx 20rpx;
 }
@@ -87,45 +131,74 @@
 	margin: 16rpx 0;
 }
 .list{
-	margin: 30rpx 0;
+	margin: 20rpx 0;
 	.demo-warter{
 		margin: 10rpx 10rpx 10rpx 0;
 		background-color: #fff;
 		border-radius: 16rpx;
 		padding: 16rpx;
-	}
-	.demo-title{
-		font-size: 30rpx;
-		margin-top: 10rpx;
-		color: #303133;
-	}
-	.demo-price{
-		font-size: 24rpx;
-		color: #777;
-		margin-top: 10rpx;
-	}
-	.demo-tag{
-		display: flex;
-		margin-top: 10rpx;
-		.demo-tag-owner{
-			border: 1px solid rgb(252,163,129);
-			color: #ffaa00;
-			font-size: 20rpx;
-			display: flex;
-			align-items: center;
-			padding: 2rpx 14rpx;
-			border-radius: 50rpx;
+		position: relative;
+		
+		.demo-title{
+			font-size: 30rpx;
+			margin-top: 10rpx;
+			color: #303133;
 		}
-		.demo-tag-text{
-			border: 1px solid #00aaff;
-			color: #00aaff;
-			font-size: 20rpx;
-			margin-left: 20rpx;
+		.demo-price{
+			font-size: 24rpx;
+			color: #777;
+			margin-top: 10rpx;
+		}
+		.demo-tag{
 			display: flex;
-			align-items: center;
-			padding: 2rpx 14rpx;
-			border-radius: 50rpx;
+			margin-top: 10rpx;
+			.demo-tag-owner{
+				border: 1px solid rgb(252,163,129);
+				color: #ffaa00;
+				font-size: 20rpx;
+				display: flex;
+				align-items: center;
+				padding: 2rpx 14rpx;
+				border-radius: 50rpx;
+			}
+			.demo-tag-text{
+				border: 1px solid #00aaff;
+				color: #00aaff;
+				font-size: 20rpx;
+				margin-left: 20rpx;
+				display: flex;
+				align-items: center;
+				padding: 2rpx 14rpx;
+				border-radius: 50rpx;
+			}
+		}
+		.isDot{
+			position: absolute;
+			top: 20rpx;
+			right: 20rpx;
+			font-size: 24rpx;
+			color: #fff;
+			line-height: 32rpx;
+			background-color: #ff0000;
+			text-align: center;
+			border-radius: 10rpx;
+			padding: 4rpx 10rpx;
 		}
 	}
+
+}
+
+.topClass{
+	position: fixed;
+	bottom: 120rpx;
+	right: 30rpx;
+	background-color: rgba(0,0,0,0.5);
+	padding: 20rpx;
+	width: 44rpx;
+	height: 44rpx;
+	border-radius: 40rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 </style>

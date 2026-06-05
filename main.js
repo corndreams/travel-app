@@ -1,5 +1,6 @@
 import App from './App'
 import uviewPlus from '@/uni_modules/uview-plus'
+// import './api/mock.js'
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -9,7 +10,7 @@ import './uni.promisify.adaptor'
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
-  ...App
+  // ...App
 })
 app.$mount()
 // #endif

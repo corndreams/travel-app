@@ -26,6 +26,12 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		},
+		{
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}
 	],
 	"tabBar": {
@@ -37,6 +43,10 @@
 			{
 				"pagePath": "pages/index/index",
 				"text": "首页"
+			},
+			{
+				"pagePath": "pages/chat/chat",
+				"text": "对话"
 			},
 			{
 				"pagePath": "pages/like/like",
