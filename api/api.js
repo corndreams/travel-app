@@ -13,5 +13,5 @@ export const login =(code)=>{
 }
 
 export const getUserInfo =()=>{
-	return http('/getUserInfo')
+	return http('getUserInfo')
 }

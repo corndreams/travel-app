@@ -27,7 +27,7 @@
 					<template v-else>
 						<image :src="userInfo.avatarUrl" mode="aspectFill"></image>
 						<view class="tit">
-							{{user.nickName}}
+							{{userInfo.nickName}}
 						</view>
 					</template>
 				</view>
@@ -38,33 +38,140 @@
 					</view>
 					<view class="u-item">
 						<view class="num">12</view>
-						<view class="u-tit">点赞</view>
+						<view class="u-tit">喜欢</view>
 					</view>
 					<view class="u-item">
 						<view class="num">12</view>
-						<view class="u-tit">点赞</view>
+						<view class="u-tit">浏览</view>
 					</view>
 					<view class="u-item">
 						<view class="num">12</view>
-						<view class="u-tit">点赞</view>
+						<view class="u-tit">收藏</view>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="listBox">
-			
+			<uni-list>
+				<uni-list-item
+			    v-for="(item, index) in menuList"
+			    :key="index"
+			    :show-extra-icon="true"
+			    :extra-icon="item.extraIcon"
+			    showArrow
+			    :title="item.title"
+			    clickable
+				></uni-list-item>
+			</uni-list>
 		</view>
+		<up-popup :show="show" mode="bottom" closeable @close="close" round="20">
+			<view class="popup">
+				<view class="title">
+					获取您的头像、昵称
+				</view>
+				<view class="flex">
+					<view class="label">
+						获取用户头像
+					</view>
+					<button class="avatar-warpper" open-type="chooseAvatar" @chooseavatar="onChooseavatar">
+						<image :src="userInfo.avatarUrl" class="avatar"></image>
+					</button>
+				</view>
+				<view class="flex">
+					<view class="label">
+						获取用户昵称
+					</view>
+					<input type="nickname" @input="changeName" />
+				</view>
+				<button size="default" type="primary" @click="userSubmit">确认</button>
+			</view>
+		</up-popup>
 	</view>
 </template>
 
 <script setup>
 	import {ref,reactive} from 'vue'
+	import {onLoad} from '@dcloudio/uni-app'
 	import { login,getUserInfo } from '../../api/api'
 	
 	let userInfo = reactive({
 		nickName:'',
 		avatarUrl:''
 	})
+	
+const menuList = [
+  {
+    title: '个人信息',
+    extraIcon: {
+      color: '#666666',
+      size: '22',
+      type: 'auth'
+    }
+  },
+  {
+    title: '我的购物车',
+    extraIcon: {
+      color: '#666666',
+      size: '22',
+      type: 'cart'
+    }
+  },
+  {
+    title: '用户反馈',
+    extraIcon: {
+      color: '#666666',
+      size: '22',
+      type: 'chatboxes'
+    }
+  },
+  {
+    title: '我的邮件',
+    extraIcon: {
+      color: '#666666',
+      size: '22',
+      type: 'email'
+    }
+  },
+  {
+    title: '个人信息', 
+    extraIcon: {
+      color: '#666666',
+      size: '22',
+      type: 'gift'
+    }
+  }
+]
+	
+	const show = ref(false)
+	
+	onLoad(()=>{
+		if(uni.getStorageSync('token') && !uni.getStorageSync('userInfo')){
+			const {avatarUrl,nickName} = getUserInfo()
+			userInfo.avatarUrl = avatarUrl
+			userInfo.nickName = nickName
+		}else if(uni.getStorageSync('token') && uni.getStorageSync('userInfo')){
+			const {avatarUrl,nickName} = JSON.parse(uni.getStorageSync('userInfo'))
+			userInfo.avatarUrl = avatarUrl
+			userInfo.nickName = nickName
+		}
+	})
+	
+	const close =()=>{
+		show.value=flase
+	}
+	
+	const userSubmit = () =>{
+		uni.setStorageSync('userInfo',JSON.stringify(userInfo))
+		show.value=false
+	}
+	
+	const onChooseavatar=(e)=>{
+		userInfo.avatarUrl=e.detail.avatarUrl
+	}
+	
+	const changeName=(e)=>{
+		userInfo.nickName=e.detail.value
+	}
 	
 		
 	const setFun = ()=>{
@@ -88,9 +195,13 @@
 							const {token} = await login(data.code)
 							console.log(token,'token')
 							uni.setStorageSync('token',token)
-							const {avatarUrl,nickName} = await getUserInfo()
-							userInfo.avatarUrl = avatarUrl
-							userInfo.nickName = nickName
+							const res = await getUserInfo()
+							console.log(res)
+							userInfo.avatarUrl = res.avatarUrl
+							userInfo.nickName = res.nickName
+							console.log(userInfo)
+							show.value = true
+							console.log('测试')
 						}
 					})
 				}
@@ -180,6 +291,41 @@
 					}
 				}
 			}
+		}
+		.popup{
+			padding: 20rpx;
+			border-radius: 20rpx 20rpx 0 0;
+			.title{
+				margin-bottom: 20rpx;
+				font-size: 40rpx;
+				text-align: center;
+			}
+			.flex{
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				border-bottom: 4rpx solid #f5f5f5;
+				padding: 24rpx 0;
+			}
+			image{
+				width: 70rpx;
+				height: 70rpx;
+			}
+			.avatar-warpper{
+				border: none;
+				border-radius: 10rpx;
+				width: 70rpx;
+				height: 70rpx;
+				margin-left: 20rpx;
+				padding: 0;
+			}
+		}
+		.listBox{
+			height: 200rpx;
+			margin: -10rpx auto 0;
+			padding: 20rpx;
+			box-sizing: border-box;
+			border-radius: 12rpx;
 		}
 	}
 </style>

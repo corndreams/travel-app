@@ -16,7 +16,7 @@ export default function http (url,data,method){
 			data,
 			method,
 			header:{
-				'token':uni.getStorage('token') || ''
+				'token':uni.getStorageSync('token') || ''
 			},
 			success: res=>{
 				if(res.statusCode === 200){
