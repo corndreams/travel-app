@@ -15,3 +15,7 @@ export const login =(code)=>{
 export const getUserInfo =()=>{
 	return http('getUserInfo')
 }
+
+export const detailProject = () =>{
+	return http('detail/project')
+}
