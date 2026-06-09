@@ -24,7 +24,7 @@
 						游玩推荐
 					</view>
 					<view class="jj tj-list">
-						<view class="item" v-for="(item,index) in projectList" :key="index">
+						<view class="item" v-for="(item,index) in projectList" :key="index" @click="goLine(item)">
 							<image :src="item.url" mode="aspectFill"></image>
 							<view class="topFixed">
 								{{item.tag}}
@@ -57,6 +57,13 @@
 	})
 	
 	const projectList = ref([])
+	
+	const goLine = (item)=>{
+		console.log(item)
+		uni.navigateTo({
+			url:`/pages/line/line?id=${item.id}`
+		})
+	}
 	
 	onLoad((opt)=>{
 		detailProject().then((res)=>{
