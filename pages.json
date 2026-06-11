@@ -31,7 +31,7 @@
 		{
 			"path": "pages/chat/chat",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "AI旅游助手"
 			}
 		},
 		{
@@ -46,6 +46,19 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		},
+		{
+			"path": "pages/plan/plan",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/trip/trip",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"tabBar": {
@@ -59,12 +72,12 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/chat/chat",
-				"text": "对话"
+				"pagePath": "pages/plan/plan",
+				"text": "规划"
 			},
 			{
-				"pagePath": "pages/like/like",
-				"text": "收藏"
+				"pagePath": "pages/chat/chat",
+				"text": "对话"
 			},
 			{
 				"pagePath": "pages/my/my",

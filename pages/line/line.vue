@@ -57,6 +57,7 @@
 	.infos{
 		padding: 20rpx;
 		box-sizing: border-box;
+		background-color: #f5f5f5;
 		.tit{
 			font-size: 34rpx;
 			font-weight: 600;

@@ -230,7 +230,7 @@ const menuList = [
 			z-index: -1;
 			top: 0%;
 			left: -20%;
-			background-color: #00aaff;
+			background-color: #FF6600;
 			border-radius: 0 0 50% 50%;
 		}
 		.setbox{

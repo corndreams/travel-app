@@ -39,6 +39,7 @@
 .like{
 	padding: 20rpx;
 	box-sizing: border-box;
+	background-color: #f5f5f5;
 	.tj-list{
 		display: flex;
 		justify-content: space-between;

@@ -129,7 +129,7 @@
 
 <style>
 	page{
-		background-color: rgb(240,240,240);
+		background-color: #f5f5f5;
 	}
 </style>
 <style lang="scss" scoped>
@@ -152,6 +152,7 @@
 			font-size: 30rpx;
 			margin-top: 10rpx;
 			color: #303133;
+			color: #FF6600;
 		}
 		.demo-price{
 			font-size: 24rpx;

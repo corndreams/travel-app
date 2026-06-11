@@ -7,7 +7,7 @@
 				<view class="j-con">
 				<view class="tit" style="display: flex;">
 					<text style="margin-right: 7px;font-size: 17px;">{{details.dt.title}}</text>
-					<up-tag text="5A级景区" size="mini" shape="circle"></up-tag>
+					<up-tag text="5A级景区" size="mini" shape="circle" type="warning" bgColor="#FF6600"></up-tag>
 				</view>
 				<view class="jj">
 					<view style="font-weight: 700;font-size: 14px;">景区介绍</view>
@@ -127,7 +127,7 @@
 						left: 0;
 						border-top-left-radius: 20rpx;
 						border-bottom-right-radius: 20rpx;
-						background-color: #ffaa7f;
+						background-color: #FF6600;
 						color: #fff;
 						text-align: center;
 						font-size: 22rpx;
